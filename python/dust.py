@@ -398,7 +398,7 @@ def ala5495(lam, rv=3.1):
     return a + b/rv
 
 
-def ext_f09(lam, rv=3.1, alpha=2.4, join=20000/3.):
+def ext_f09(lam, rv=3.1, alpha=2.4, join=6000):
     """Return A(lam) from Fitzpatrick & Massa (2009) extinction law.
 
     Returns the extinction A(lam) at wavelength lam (angstroms) from the
@@ -494,10 +494,10 @@ def ext_ala14(lam, rv=3.1, join=10000./0.3-0.0001):
     alam = (lam * 0.).astype('f8')
     ala5420 = ala5495(5420, rv=rv)
     alam[m] = ala5495(lam[m], rv=rv)/ala5420
-    alam[~m] = ext_f09(lam[~m], rv=rv)
+    alam[~m] = ext_f99(lam[~m], rv=rv)
     # now some joining and normalization logic
     alamj1 = ala5495(join, rv=rv)/ala5420
-    alamj2 = ext_f09(join, rv=rv)
+    alamj2 = ext_f99(join, rv=rv)
     alam[~m] = alam[~m] * alamj1/alamj2
     return alam
 
