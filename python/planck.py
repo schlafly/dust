@@ -1,4 +1,5 @@
-import os, pyfits, healpy, numpy
+import os, healpy, numpy
+from astropy.io import fits
 
 maps = {
     'cmb-nilc':'COM_CompMap_CMB-nilc_2048_R1.11.fits',
@@ -23,20 +24,23 @@ maps = {
     '857':'HFI_SkyMap_857_2048_R1.10_nominal.fits',
     '030':'LFI_SkyMap_030_1024_R1.10_nominal.fits',
     '044':'LFI_SkyMap_044_1024_R1.10_nominal.fits',
-    '070':'LFI_SkyMap_070_1024_R1.10_nominal.fits' }
+    '070':'LFI_SkyMap_070_1024_R1.10_nominal.fits',
+    'nilcspectralindex': 'COM_CompMap_Dust-GNILC-Model-Spectral-Index_2048_R2.00.fits',
+    'commander2.0': 'COM_CompMap_ThermalDust-commander_2048_R2.00.fits',
+}
 
 
-def getval(l, b, map='dust', field='ebv'):
+def getval(l, b, map='dust', field='ebv', nest=True):
     planck_dir = os.environ['PLANCK_DIR']
     if map in maps:
         map = maps[map]
-    map = pyfits.getdata(os.path.join(planck_dir, map))
+    map = fits.getdata(os.path.join(planck_dir, map))
     map = map[field]
     t, p = ((90.-b)*numpy.pi/180., l*numpy.pi/180.)
-    return healpy.get_interp_val(map, t, p, nest=True)
+    return healpy.get_interp_val(map, t, p, nest=nest)
 
 def getval_dpf(l, b):
     planck_dir = os.environ['PLANCK_DIR']
-    map = pyfits.getdata(os.path.join(planck_dir, '../dust/Planckdust_1024_v2.fits'), 4)
+    map = fits.getdata(os.path.join(planck_dir, '../dust/Planckdust_1024_v2.fits'), 4)
     t, p = ((90.-b)*numpy.pi/180., l*numpy.pi/180.)
     return healpy.get_interp_val(map, t, p, nest=True)*7500
