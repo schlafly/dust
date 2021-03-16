@@ -649,6 +649,7 @@ def ext_ala14(lam, rv=3.1, join=10000./0.3-0.0001):
     Returns:
         A(lam, rv)/A(5420, rv)
     """
+    lam = numpy.atleast_1d(lam)
     m = lam < join
     alam = (lam * 0.).astype('f8')
     ala5420 = ala5495(5420, rv=rv)
