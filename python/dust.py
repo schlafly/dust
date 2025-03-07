@@ -723,7 +723,7 @@ def compute_rf_filters(ws, ss, filters, av, urmag=None,
                                    ss[specregions[i][0]:specregions[i][1]],
                                    f[i][0], f[i][1], av,
                                    urmag=urmag[i], **kw)
-                        for i in xrange(len(filters))])
+                        for i in range(len(filters))])
 
 
 def construct_reddening_grid(reddeninglaw, lam=None, rv=None):
